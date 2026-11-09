@@ -20,17 +20,14 @@ import {
   TableWrapper,
   Title,
 } from "./components";
-import {
-  Payment,
-  PaymentColumn,
-  PaymentSearchResponse,
-} from "../types/payment";
+import { Payment, PaymentColumn } from "../types/payment";
 import { I18N } from "../constants/i18n";
 import axios from "axios";
-import { API_URL, CURRENCIES } from "../constants";
+import { CURRENCIES } from "../constants";
 import { useQuery } from "@tanstack/react-query";
 import { formatPaymentDate } from "../helpers/datetime";
 import { useState } from "react";
+import { fetchPayments } from "../api/payments-api";
 
 type ColumnDefinition = {
   id: PaymentColumn;
@@ -46,22 +43,12 @@ const PAYMENT_COLUMNS: readonly ColumnDefinition[] = [
   { id: PaymentColumn.Status, label: I18N.TABLE_HEADER_STATUS },
 ];
 
-type QueryParams = {
+export type QueryParams = {
   search: string;
   currency: (typeof CURRENCIES)[number];
   page: number;
   pageSize: number;
 };
-
-async function fetchPayments(
-  params: QueryParams,
-): Promise<PaymentSearchResponse> {
-  const response = await axios.get<PaymentSearchResponse>(API_URL, {
-    params,
-  });
-
-  return response.data;
-}
 
 export function PaymentsPage() {
   const [draftSearch, setDraftSearch] = useState("");
@@ -79,7 +66,7 @@ export function PaymentsPage() {
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["payments", params],
-    queryFn: () => fetchPayments(params),
+    queryFn: ({ signal }) => fetchPayments(params, signal),
   });
 
   function handleClearFilters() {
