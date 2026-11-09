@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="11" failures="0" errors="0" time="0.6371477">
+    <testsuite name="src/App.test.tsx" timestamp="2026-11-09T16:06:45.238Z" hostname="Fahmid" tests="11" failures="0" errors="0" skipped="0" time="0.6371477">
+        <testcase classname="src/App.test.tsx" name="App - Step 1: Basic Payment List &gt; should fetch and display payments in a table with page=1 and pageSize=5" time="0.2134492">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 2: Search by Payment ID &gt; should have a search input for payment ID" time="0.0187689">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 2: Search by Payment ID &gt; should search for payments by payment ID" time="0.0627685">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 3: Clear Filters &gt; should clear all filters when clear button is clicked" time="0.0550092">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 4: Handle Payment Not Found &gt; should display error message when payment ID is not found" time="0.0654659">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 5: Handle Server Error &gt; should display error message when API returns 500" time="0.0636708">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 6: Currency Filter &gt; should have a currency filter dropdown" time="0.017302">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 6: Currency Filter &gt; should filter payments by currency when selected" time="0.0211298">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 7: Combined Currency and Payment ID Filter &gt; should filter by both currency and payment ID" time="0.0364753">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 8: Pagination &gt; should display pagination controls" time="0.0426699">
+        </testcase>
+        <testcase classname="src/App.test.tsx" name="App - Step 8: Pagination &gt; should disable previous button on first page" time="0.0341384">
+        </testcase>
+    </testsuite>
+</testsuites>

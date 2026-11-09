@@ -32,12 +32,11 @@ export const FilterRow = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 
   @media (min-width: 768px) {
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
   }
 `;
 
@@ -46,8 +45,13 @@ export const SearchInput = styled.input`
   padding: 0.5rem 1rem;
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
+  background-color: white;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   outline: none;
+
+  &::placeholder {
+    color: #6b7280;
+  }
 
   &:focus {
     border-color: rgb(61, 70, 83);
@@ -88,6 +92,11 @@ export const SearchButton = styled.button`
   &:hover {
     background-color: rgb(33, 65, 154);
   }
+
+  &:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
 `;
 
 export const ClearButton = styled.button`
@@ -119,7 +128,6 @@ export const TableWrapper = styled.div`
   border: 1px solid #e5e7eb;
   border-radius: 0.375rem;
   background-color: white;
-  margin-top: 1.5rem;
 `;
 
 export const Table = styled.table`
