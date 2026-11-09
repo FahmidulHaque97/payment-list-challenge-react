@@ -1,5 +1,7 @@
 # 💳 Payment Search Challenge
 
+For setup instructions, implementation decisions, architecture, state management, API integration and known limitations, see the [implementation guide](docs/implementation.md).
+
 Welcome to the Payment Search Challenge! This is a frontend coding challenge designed to assess your ability to implement a payment search feature using modern web technologies.
 
 Your task is to build a payment search interface that allows users to:
