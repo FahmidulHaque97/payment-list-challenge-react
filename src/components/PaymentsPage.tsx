@@ -46,18 +46,18 @@ const PAYMENT_COLUMNS: readonly ColumnDefinition[] = [
   { id: PaymentColumn.Status, label: I18N.TABLE_HEADER_STATUS },
 ];
 
+type QueryParams = {
+  search: string;
+  currency: (typeof CURRENCIES)[number];
+  page: number;
+  pageSize: number;
+};
+
 async function fetchPayments(
-  search = "",
-  currency: (typeof CURRENCIES)[number] = I18N.EMPTY_CURRENCY,
-  page: number,
+  params: QueryParams,
 ): Promise<PaymentSearchResponse> {
   const response = await axios.get<PaymentSearchResponse>(API_URL, {
-    params: {
-      search,
-      currency,
-      page,
-      pageSize: 5,
-    },
+    params,
   });
 
   return response.data;
@@ -70,15 +70,17 @@ export function PaymentsPage() {
   const currencyFilter = currency === I18N.EMPTY_CURRENCY ? "" : currency;
   const [page, setPage] = useState(1);
 
+  const params: QueryParams = {
+    search: appliedSearch,
+    currency: currencyFilter,
+    page,
+    pageSize: 5,
+  };
+
   const { data, isPending, isError, error } = useQuery({
-    queryKey: [
-      "payments",
-      { search: appliedSearch, currency: currencyFilter, page: page },
-    ],
-    queryFn: () => fetchPayments(appliedSearch, currencyFilter, page),
+    queryKey: ["payments", params],
+    queryFn: () => fetchPayments(params),
   });
-
-
 
   function handleClearFilters() {
     setDraftSearch("");
@@ -212,12 +214,12 @@ export function PaymentsPage() {
   function handlePagination(direction: "next" | "prev") {
     if (direction === "prev") {
       if (page == 1) return;
-      const prevPage = page - 1
-      setPage(prevPage)
+      const prevPage = page - 1;
+      setPage(prevPage);
     }
     if (direction === "next") {
-      const nextPage = page + 1
-      setPage(nextPage)
+      const nextPage = page + 1;
+      setPage(nextPage);
     }
   }
 
