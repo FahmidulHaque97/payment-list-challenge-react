@@ -1,60 +1,63 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-} from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
 import { server } from "./mocks/node";
 import App from "./App";
 import { I18N } from "./constants/i18n";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 // Helper function to robustly check for error messages with better debugging
-export const waitForErrorMessage = async (expectedMessage: string, timeout = 10000) => {
+export const waitForErrorMessage = async (
+  expectedMessage: string,
+  timeout = 10000,
+) => {
   try {
-    await waitFor(() => {
-      expect(screen.getByText(expectedMessage)).toBeInTheDocument();
-    }, { timeout });
+    await waitFor(
+      () => {
+        expect(screen.getByText(expectedMessage)).toBeInTheDocument();
+      },
+      { timeout },
+    );
   } catch (error) {
     // If the expected message isn't found, let's see what error messages are actually on the page
     const errorElements = screen.queryAllByText(/error|not found|server/i);
-    const errorTexts = errorElements.map(el => el.textContent).filter(Boolean);
-    
+    const errorTexts = errorElements
+      .map((el) => el.textContent)
+      .filter(Boolean);
+
     throw new Error(
       `Expected error message "${expectedMessage}" not found. ` +
-      `Available error-related text: ${errorTexts.join(', ') || 'None found'}`
+        `Available error-related text: ${errorTexts.join(", ") || "None found"}`,
     );
   }
 };
 
-export const getTableCellsByColumnName = (columnName: string, rowIndex: number) => {
-  const headers = screen.getAllByRole('columnheader');
+export const getTableCellsByColumnName = (
+  columnName: string,
+  rowIndex: number,
+) => {
+  const headers = screen.getAllByRole("columnheader");
 
   const columnIndex = headers.findIndex((header) =>
-    (header?.textContent || '').includes(columnName),
+    (header?.textContent || "").includes(columnName),
   );
 
   if (columnIndex === -1) {
     throw new Error(`Column name not found`);
   }
 
-  const rows = screen.getAllByRole('row').slice(1);
+  const rows = screen.getAllByRole("row").slice(1);
 
   if (rowIndex !== null) {
-    const cells = rows[rowIndex]?.querySelectorAll('td');
+    const cells = rows[rowIndex]?.querySelectorAll("td");
     return cells?.[columnIndex];
   } else {
     throw new Error(`Row not found`);
   }
 };
 
-
 export const formattedDate = (date: string) => {
-  return format(new Date(date), "dd/MM/yyyy, HH:mm:ss")
+  return format(new Date(date), "dd/MM/yyyy, HH:mm:ss");
 };
 
 export const getSearchInput = () => {
@@ -107,7 +110,9 @@ describe("App - Step 2: Search by Payment ID", () => {
     render(<App />);
 
     const searchInput = getSearchInput();
-    const searchButton = screen.getByRole("button", { name: I18N.SEARCH_BUTTON });
+    const searchButton = screen.getByRole("button", {
+      name: I18N.SEARCH_BUTTON,
+    });
 
     fireEvent.change(searchInput, { target: { value: "pay_134_1" } });
     fireEvent.click(searchButton);
@@ -123,7 +128,9 @@ describe("App - Step 3: Clear Filters", () => {
     render(<App />);
 
     const searchInput = getSearchInput();
-    const searchButton = screen.getByRole("button", { name: I18N.SEARCH_BUTTON });
+    const searchButton = screen.getByRole("button", {
+      name: I18N.SEARCH_BUTTON,
+    });
 
     // Perform a search
     fireEvent.change(searchInput, { target: { value: "pay_134_1" } });
@@ -134,7 +141,9 @@ describe("App - Step 3: Clear Filters", () => {
     });
 
     // Clear filters
-    const clearButton = screen.getByRole("button", { name: I18N.CLEAR_FILTERS });
+    const clearButton = screen.getByRole("button", {
+      name: I18N.CLEAR_FILTERS,
+    });
     fireEvent.click(clearButton);
 
     // Check that search input is cleared
@@ -147,7 +156,9 @@ describe("App - Step 4: Handle Payment Not Found", () => {
     render(<App />);
 
     const searchInput = getSearchInput();
-    const searchButton = screen.getByRole("button", { name: I18N.SEARCH_BUTTON });
+    const searchButton = screen.getByRole("button", {
+      name: I18N.SEARCH_BUTTON,
+    });
 
     fireEvent.change(searchInput, { target: { value: "pay_404" } });
     fireEvent.click(searchButton);
@@ -161,7 +172,9 @@ describe("App - Step 5: Handle Server Error", () => {
     render(<App />);
 
     const searchInput = getSearchInput();
-    const searchButton = screen.getByRole("button", { name: I18N.SEARCH_BUTTON });
+    const searchButton = screen.getByRole("button", {
+      name: I18N.SEARCH_BUTTON,
+    });
 
     fireEvent.change(searchInput, { target: { value: "pay_500" } });
     fireEvent.click(searchButton);
@@ -174,14 +187,18 @@ describe("App - Step 6: Currency Filter", () => {
   test("should have a currency filter dropdown", () => {
     render(<App />);
 
-    const currencySelect = screen.getByRole("combobox", { name: I18N.CURRENCY_FILTER_LABEL });
+    const currencySelect = screen.getByRole("combobox", {
+      name: I18N.CURRENCY_FILTER_LABEL,
+    });
     expect(currencySelect).toBeInTheDocument();
   });
 
   test("should filter payments by currency when selected", async () => {
     render(<App />);
 
-    const currencySelect = screen.getByRole("combobox", { name: I18N.CURRENCY_FILTER_LABEL });
+    const currencySelect = screen.getByRole("combobox", {
+      name: I18N.CURRENCY_FILTER_LABEL,
+    });
 
     fireEvent.change(currencySelect, { target: { value: "USD" } });
 
@@ -197,8 +214,12 @@ describe("App - Step 7: Combined Currency and Payment ID Filter", () => {
     render(<App />);
 
     const searchInput = getSearchInput();
-    const searchButton = screen.getByRole("button", { name: I18N.SEARCH_BUTTON });
-    const currencySelect = screen.getByRole("combobox", { name: I18N.CURRENCY_FILTER_LABEL });
+    const searchButton = screen.getByRole("button", {
+      name: I18N.SEARCH_BUTTON,
+    });
+    const currencySelect = screen.getByRole("combobox", {
+      name: I18N.CURRENCY_FILTER_LABEL,
+    });
 
     // Search for a specific payment
     fireEvent.change(searchInput, { target: { value: "pay_134" } });
@@ -225,8 +246,12 @@ describe("App - Step 8: Pagination", () => {
     });
 
     // Check for pagination buttons
-    expect(screen.getByRole("button", { name: I18N.PREVIOUS_BUTTON })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: I18N.NEXT_BUTTON })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: I18N.PREVIOUS_BUTTON }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: I18N.NEXT_BUTTON }),
+    ).toBeInTheDocument();
   });
 
   test("should disable previous button on first page", async () => {
@@ -237,7 +262,9 @@ describe("App - Step 8: Pagination", () => {
       expect(screen.getAllByRole("cell").length).toBeGreaterThan(0);
     });
 
-    const previousButton = screen.getByRole("button", { name: I18N.PREVIOUS_BUTTON });
+    const previousButton = screen.getByRole("button", {
+      name: I18N.PREVIOUS_BUTTON,
+    });
     expect(previousButton).toBeDisabled();
   });
 });

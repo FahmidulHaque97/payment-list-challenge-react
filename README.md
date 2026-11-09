@@ -3,6 +3,7 @@
 Welcome to the Payment Search Challenge! This is a frontend coding challenge designed to assess your ability to implement a payment search feature using modern web technologies.
 
 Your task is to build a payment search interface that allows users to:
+
 - View payment details organised in a table
 - Search for payments by payment ID & currency and clear filters
 - Handle various edge cases and error states
@@ -56,12 +57,12 @@ The project uses MSW to mock the payment search API. The API URL is defined in `
 
 #### Query Parameters
 
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `search` | string | No | `""` | Search term to filter payments (supports Payment ID, Status, Currency, Customer Name) |
-| `currency` | string | No | `""` | Filter by currency code (`USD`, `EUR`, `GBP`, `AUD`, `CAD`, `ZAR`) - available in `src/constants/index.ts` |
-| `page` | number | No | `1` | Page number for pagination |
-| `pageSize` | number | No | `5` | Number of payments per page |
+| Parameter  | Type   | Required | Default | Description                                                                                                |
+| ---------- | ------ | -------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| `search`   | string | No       | `""`    | Search term to filter payments (supports Payment ID, Status, Currency, Customer Name)                      |
+| `currency` | string | No       | `""`    | Filter by currency code (`USD`, `EUR`, `GBP`, `AUD`, `CAD`, `ZAR`) - available in `src/constants/index.ts` |
+| `page`     | number | No       | `1`     | Page number for pagination                                                                                 |
+| `pageSize` | number | No       | `5`     | Number of payments per page                                                                                |
 
 #### Request Examples
 
@@ -72,13 +73,14 @@ GET /api/payments?search=pay_134&currency=USD&page=1&pageSize=5
 #### Response Format
 
 **Success Response (200 OK):**
+
 ```json
 {
   "payments": [
     {
       "id": "pay_123456789",
       "customerName": "John Doe",
-      "amount": 150.00,
+      "amount": 150.0,
       "customerAddress": "123 Main St, City, Country",
       "currency": "USD",
       "status": "completed",
@@ -96,6 +98,7 @@ GET /api/payments?search=pay_134&currency=USD&page=1&pageSize=5
 #### Available Test Data
 
 The mock API includes the following payment IDs for testing:
+
 - `pay_134_1`, `pay_134_2`, `pay_134_3`, `pay_134_4`, `pay_134_5` - Various payment statuses
 - `pay_205_1`, `pay_205_2`, `pay_205_3`, `pay_205_4`, `pay_205_5` - Multiple payments with different currencies
 - `pay_404` - Returns `404` error
@@ -108,12 +111,12 @@ The mock API includes the following payment IDs for testing:
 - **Main i18n strings**: `src/constants/i18n.ts` - Contains all user-facing text including labels, buttons, messages, and table headers
 
 Import the i18n constants like this:
+
 ```typescript
-import { I18N } from './constants/i18n';
+import { I18N } from "./constants/i18n";
 ```
 
 **Note**: These strings are used by our tests and scoring system, so using the exact i18n constants is required for your solution to pass validation.
-
 
 ## 📝 Evaluation Criteria
 
@@ -141,87 +144,99 @@ This challenge is designed to be completed incrementally. Each step builds upon 
 Good luck! 🚀
 
 ### Step 1: Basic Payment List ✅
+
 **Goal**: Fetch and display payments in a table with proper formatting
 
 **Requirements**:
+
 - Fetch payments from the API with `page=1` and `pageSize=5`
 - Display payments in a table with headers using i18n strings (see `src/constants/i18n.ts`)
 - Format amounts and dates as per the example in the screenshot
 
 ![Payments Page](./docs/payments_page.png)
-*The main payments interface showing the search form, filters, and payment table*
+_The main payments interface showing the search form, filters, and payment table_
 
 **Test to pass**: `App - Step 1: Basic Payment List`
 
 **Command to run**: `npm run test:step1`
 
 ### Step 2: Search by Payment ID ✅
+
 **Goal**: Add search functionality for payment IDs
 
 **Requirements**:
+
 - Add a search input with proper ARIA labels
 - Add a search button
 - Implement search functionality that queries the API
 - Use the i18n strings for labels and placeholders (see `src/constants/i18n.ts`)
 
 ![Search by Payment ID](./docs/search_by_payment_id.png)
-*Search input for payments by payment ID*
+_Search input for payments by payment ID_
 ![Search by Payment ID](./docs/search_by_payment_id_with_search.png)
-*Searching for payments by payment ID with results displayed in the table*
+_Searching for payments by payment ID with results displayed in the table_
 
 **Test to pass**: `App - Step 2: Search by Payment ID`
 
 **Command to run**: `npm run test:step2`
 
 ### Step 3: Clear Filters ✅
+
 **Goal**: Add ability to clear all active filters
 
 **Requirements**:
+
 - Show a "Clear Filters" button when any filter is active
 - Reset the search input to empty
 - Hide the clear button when no filters are active
 
 ![Clear Filters](./docs/clear_filters.png)
-*Clear Filters button*
+_Clear Filters button_
 
 **Test to pass**: `App - Step 3: Clear Filters`
 
 **Command to run**: `npm run test:step3`
 
 ### Step 4: Handle Payment Not Found ✅
+
 **Goal**: Display appropriate error message when payment is not found
 
 **Requirements**:
+
 - Handle 404 responses from the API (use `pay_404` as the payment ID)
 - Display the error message from i18n constants
 - Show the error message in a user-friendly way
 
 ![Payment Not Found](./docs/payment_not_found.png)
-*Error message displayed when a payment is not found (404 error)*
+_Error message displayed when a payment is not found (404 error)_
 
 **Test to pass**: `App - Step 4: Handle Payment Not Found`
 
 **Command to run**: `npm run test:step4`
 
 ### Step 5: Handle Server Error ✅
+
 **Goal**: Display error message for server errors
 
 **Requirements**:
+
 - Handle 500 responses from the API (use `pay_500` as the payment ID)
 - Display the appropriate error message from i18n
 - Ensure the error is clearly visible to users
 
 ![Internal Server Error](./docs/internal_server_error.png)
-*Error message displayed when a server error occurs (500 error)*
+_Error message displayed when a server error occurs (500 error)_
 
 **Test to pass**: `App - Step 5: Handle Server Error`
 
 **Command to run**: `npm run test:step5`
 
 ### Step 6: Currency Filter ✅
+
 **Goal**: Add currency filtering functionality
 
 **Requirements**:
+
 - Add a currency dropdown with all available currencies
 - Filter payments by selected currency
 - Use proper ARIA labels for accessibility
@@ -229,31 +244,35 @@ Good luck! 🚀
 - Clear all filters clicked should clear the currency filter
 
 ![Filter by Currency](./docs/filter_by_currency.png)
-*Filtering payments by currency using the dropdown selector*
+_Filtering payments by currency using the dropdown selector_
 
 **Test to pass**: `App - Step 6: Currency Filter`
 
 **Command to run**: `npm run test:step6`
 
 ### Step 7: Combined Currency and Payment ID Filter ✅
+
 **Goal**: Ensure currency and payment ID filters work together
 
 **Requirements**:
+
 - Allow filtering by both currency and payment ID simultaneously
 - Ensure the API receives both filter parameters
 - Display results that match both criteria
 
 ![Filter by Payment ID and Currency](./docs/filter_by_payment_id_and_currency.png)
-*Filtering payments by payment ID and currency*
+_Filtering payments by payment ID and currency_
 
 **Test to pass**: `App - Step 7: Combined Currency and Payment ID Filter`
 
 **Command to run**: `npm run test:step7`
 
 ### Step 8: Pagination ✅
+
 **Goal**: Implement pagination functionality
 
 **Requirements**:
+
 - Display pagination controls (Previous/Next buttons) (use the [i18n strings for the buttons](./src/constants/i18n.ts) the icons are unicode characters in the i18n strings)
 - Show current page number (e.g., "Page 1")
 - Disable Previous button on first page
@@ -262,11 +281,12 @@ Good luck! 🚀
 - Allow navigation back to previous pages
 
 ### Pagination
+
 ![Paginate Payments](./docs/paginate_payments_page_1.png)
-*Pagination controls allowing navigation between pages of results*
+_Pagination controls allowing navigation between pages of results_
 
 ![Paginate Payments](./docs/paginate_payments_page_2.png)
-*Pagination controls allowing navigation between pages of results*
+_Pagination controls allowing navigation between pages of results_
 
 **Test to pass**: `App - Step 8: Pagination`
 
